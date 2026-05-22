@@ -55,10 +55,13 @@ def generate_synthetic_workflows(
 
     rows: list[dict] = []
     base_time = datetime(2025, 1, 1)
-    samples_per_cluster = n_samples // len(clusters)
+    n_clusters = len(clusters)
+    samples_per_cluster = n_samples // n_clusters
+    remainder = n_samples % n_clusters
 
-    for cluster_def in clusters:
-        for i in range(samples_per_cluster):
+    for idx, cluster_def in enumerate(clusters):
+        count = samples_per_cluster + (1 if idx < remainder else 0)
+        for i in range(count):
             row: dict = {}
             for feat, (mean, std) in cluster_def.items():
                 value = rng.normal(mean, std)
