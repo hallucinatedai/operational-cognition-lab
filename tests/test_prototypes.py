@@ -14,6 +14,7 @@ from prototypes.conversational_workflow.prototype import (
 
 # -- Conversational workflow --------------------------------------------------
 
+
 def test_parse_intent_deploy():
     wf = parse_intent("deploy the payment service")
     assert wf is not None
@@ -44,6 +45,7 @@ def test_parse_intent_unknown():
 
 
 # -- Autonomous escalation ----------------------------------------------------
+
 
 def test_critical_severity_triggers_rule():
     event = OperationalEvent(

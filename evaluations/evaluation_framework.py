@@ -22,6 +22,7 @@ console = Console()
 # Metrics
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class Metric:
     """A single recorded metric value."""
@@ -85,6 +86,7 @@ class MetricSummary:
 # Experiment base class
 # ---------------------------------------------------------------------------
 
+
 class Experiment(ABC):
     """Base class for all experiments in the lab."""
 
@@ -116,6 +118,7 @@ class ExperimentResult:
 # ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------
+
 
 class ExperimentRunner:
     """Executes experiments with lifecycle management and reporting."""
@@ -172,8 +175,7 @@ class ExperimentRunner:
         for result in self._results:
             status = "[bold green]PASS[/]" if result.success else "[bold red]FAIL[/]"
             console.print(
-                f"\n{status} [bold]{result.experiment_name}[/bold] "
-                f"({result.duration_seconds:.3f}s)"
+                f"\n{status} [bold]{result.experiment_name}[/bold] ({result.duration_seconds:.3f}s)"
             )
 
             if result.error:
@@ -213,6 +215,7 @@ class ExperimentRunner:
 # Demo experiments
 # ---------------------------------------------------------------------------
 
+
 class LatencyExperiment(Experiment):
     name = "latency-baseline"
     description = "Measure baseline processing latency for simulated workloads"
@@ -242,6 +245,7 @@ class AccuracyExperiment(Experiment):
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Evaluation framework demo")

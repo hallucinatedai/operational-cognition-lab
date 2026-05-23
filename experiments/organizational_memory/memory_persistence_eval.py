@@ -22,6 +22,7 @@ console = Console()
 # Memory entry
 # ---------------------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class MemoryEntry:
     """A single unit of organizational memory."""
@@ -36,6 +37,7 @@ class MemoryEntry:
 # ---------------------------------------------------------------------------
 # Strategy interface
 # ---------------------------------------------------------------------------
+
 
 class MemoryStore(ABC):
     """Abstract base for a memory persistence strategy."""
@@ -58,6 +60,7 @@ class MemoryStore(ABC):
 # Implementations
 # ---------------------------------------------------------------------------
 
+
 class FlatLogStore(MemoryStore):
     """Append-only log with linear scan retrieval."""
 
@@ -73,10 +76,7 @@ class FlatLogStore(MemoryStore):
 
     def query(self, query_tags: tuple[str, ...], top_k: int = 5) -> list[MemoryEntry]:
         tag_set = set(query_tags)
-        scored = [
-            (sum(1 for t in e.tags if t in tag_set) * e.importance, e)
-            for e in self._log
-        ]
+        scored = [(sum(1 for t in e.tags if t in tag_set) * e.importance, e) for e in self._log]
         scored.sort(key=lambda x: x[0], reverse=True)
         return [e for _, e in scored[:top_k]]
 
@@ -152,8 +152,7 @@ class HierarchicalStore(MemoryStore):
         for tag, entries in self._buckets.items():
             total += len(tag)
             total += sum(
-                len(e.content.encode()) + len(e.entry_id) + 8 * len(e.tags)
-                for e in entries
+                len(e.content.encode()) + len(e.entry_id) + 8 * len(e.tags) for e in entries
             )
         return total
 
@@ -199,8 +198,7 @@ class EmbeddingStore(MemoryStore):
 
     def size_bytes(self) -> int:
         entry_bytes = sum(
-            len(e.content.encode()) + len(e.entry_id) + 8 * len(e.tags)
-            for e in self._entries
+            len(e.content.encode()) + len(e.entry_id) + 8 * len(e.tags) for e in self._entries
         )
         vector_bytes = len(self._vectors) * self._dim * 8
         return entry_bytes + vector_bytes
@@ -211,9 +209,21 @@ class EmbeddingStore(MemoryStore):
 # ---------------------------------------------------------------------------
 
 TAG_POOL = [
-    "deployment", "incident", "review", "planning", "hiring",
-    "security", "compliance", "architecture", "budget", "migration",
-    "performance", "reliability", "onboarding", "strategy", "retrospective",
+    "deployment",
+    "incident",
+    "review",
+    "planning",
+    "hiring",
+    "security",
+    "compliance",
+    "architecture",
+    "budget",
+    "migration",
+    "performance",
+    "reliability",
+    "onboarding",
+    "strategy",
+    "retrospective",
 ]
 
 
@@ -238,6 +248,7 @@ def generate_entries(n: int = 1000, seed: int = 42) -> list[MemoryEntry]:
 # ---------------------------------------------------------------------------
 # Evaluation
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class BenchmarkResult:
@@ -308,6 +319,7 @@ def build_ground_truth(
 # Reporting
 # ---------------------------------------------------------------------------
 
+
 def print_comparison(results: list[BenchmarkResult]) -> None:
     console.rule("[bold blue]Memory Persistence Evaluation")
 
@@ -340,6 +352,7 @@ def print_comparison(results: list[BenchmarkResult]) -> None:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Memory persistence evaluation")
