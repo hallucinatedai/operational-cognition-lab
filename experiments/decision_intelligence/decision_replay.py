@@ -67,6 +67,7 @@ def generate_decision_log(n: int = 300, seed: int = 42) -> pd.DataFrame:
 # Analysis
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class CalibrationBucket:
     confidence_range: str
@@ -204,6 +205,7 @@ def replay_decisions(df: pd.DataFrame) -> ReplayResult:
 # Reporting
 # ---------------------------------------------------------------------------
 
+
 def print_report(result: ReplayResult) -> None:
     console.rule("[bold blue]Decision Replay Analysis")
 
@@ -256,6 +258,7 @@ def print_report(result: ReplayResult) -> None:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Decision replay experiment")

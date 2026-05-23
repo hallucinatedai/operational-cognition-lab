@@ -22,6 +22,7 @@ console = Console()
 # Domain model
 # ---------------------------------------------------------------------------
 
+
 class Severity(IntEnum):
     INFO = 0
     WARNING = 1
@@ -71,6 +72,7 @@ class EscalationDecision:
 # ---------------------------------------------------------------------------
 # Rule engine
 # ---------------------------------------------------------------------------
+
 
 def apply_rules(event: OperationalEvent) -> tuple[str | None, list[str]]:
     """Hard-coded rules for immediate escalation triggers."""
@@ -153,6 +155,7 @@ def score_to_level(score: float) -> EscalationLevel:
 # Decision pipeline
 # ---------------------------------------------------------------------------
 
+
 def evaluate_event(event: OperationalEvent) -> EscalationDecision:
     """Run the full escalation evaluation pipeline for one event."""
     rule_name, rule_rationale = apply_rules(event)
@@ -178,21 +181,32 @@ def evaluate_event(event: OperationalEvent) -> EscalationDecision:
 # Synthetic events
 # ---------------------------------------------------------------------------
 
+
 def generate_sample_events(n: int = 20, seed: int = 42) -> list[OperationalEvent]:
     rng = np.random.default_rng(seed)
     events: list[OperationalEvent] = []
 
     titles = [
-        "API latency spike", "Database connection pool exhaustion",
-        "Payment processing failure", "CDN cache invalidation storm",
-        "Auth service timeout", "Disk space critical on worker nodes",
-        "Memory leak in order service", "Certificate expiration warning",
-        "Rate limiter misconfiguration", "DNS resolution failures",
-        "Search index corruption", "Message queue backlog growing",
-        "Deployment rollback triggered", "Health check flapping",
-        "Upstream provider degradation", "Data pipeline stall",
-        "Login page 500 errors", "Webhook delivery failures",
-        "Cron job timeout", "Network partition detected",
+        "API latency spike",
+        "Database connection pool exhaustion",
+        "Payment processing failure",
+        "CDN cache invalidation storm",
+        "Auth service timeout",
+        "Disk space critical on worker nodes",
+        "Memory leak in order service",
+        "Certificate expiration warning",
+        "Rate limiter misconfiguration",
+        "DNS resolution failures",
+        "Search index corruption",
+        "Message queue backlog growing",
+        "Deployment rollback triggered",
+        "Health check flapping",
+        "Upstream provider degradation",
+        "Data pipeline stall",
+        "Login page 500 errors",
+        "Webhook delivery failures",
+        "Cron job timeout",
+        "Network partition detected",
     ]
 
     for i in range(n):
@@ -214,6 +228,7 @@ def generate_sample_events(n: int = 20, seed: int = 42) -> list[OperationalEvent
 # ---------------------------------------------------------------------------
 # Reporting
 # ---------------------------------------------------------------------------
+
 
 def print_decisions(decisions: list[EscalationDecision]) -> None:
     console.rule("[bold blue]Autonomous Escalation Report")
@@ -261,6 +276,7 @@ def print_decisions(decisions: list[EscalationDecision]) -> None:
 # ---------------------------------------------------------------------------
 # Interactive mode
 # ---------------------------------------------------------------------------
+
 
 def interactive_mode() -> None:
     """Evaluate a user-described event interactively."""
@@ -321,6 +337,7 @@ def interactive_mode() -> None:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Autonomous escalation prototype")

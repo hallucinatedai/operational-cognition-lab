@@ -22,6 +22,7 @@ console = Console()
 # Domain model
 # ---------------------------------------------------------------------------
 
+
 class StepStatus(Enum):
     PENDING = "pending"
     RUNNING = "running"
@@ -48,6 +49,7 @@ class Workflow:
 # ---------------------------------------------------------------------------
 # Workflow definitions
 # ---------------------------------------------------------------------------
+
 
 def _deployment_workflow() -> Workflow:
     return Workflow(
@@ -114,6 +116,7 @@ WORKFLOW_REGISTRY: list[Workflow] = [
 # Intent parsing
 # ---------------------------------------------------------------------------
 
+
 def parse_intent(user_input: str) -> Workflow | None:
     """Match user text to a workflow by keyword overlap."""
     text = user_input.lower().strip()
@@ -133,16 +136,14 @@ def parse_intent(user_input: str) -> Workflow | None:
     return Workflow(
         name=best_match.name,
         intent_keywords=best_match.intent_keywords,
-        steps=[
-            WorkflowStep(s.name, s.description, s.duration_seconds)
-            for s in best_match.steps
-        ],
+        steps=[WorkflowStep(s.name, s.description, s.duration_seconds) for s in best_match.steps],
     )
 
 
 # ---------------------------------------------------------------------------
 # Execution
 # ---------------------------------------------------------------------------
+
 
 def execute_workflow(workflow: Workflow) -> bool:
     """Execute workflow steps sequentially with progress display."""
@@ -180,6 +181,7 @@ def execute_workflow(workflow: Workflow) -> bool:
 # ---------------------------------------------------------------------------
 # Interactive loop
 # ---------------------------------------------------------------------------
+
 
 def interactive_loop() -> None:
     """Run the conversational workflow REPL."""
@@ -224,6 +226,7 @@ def interactive_loop() -> None:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Conversational workflow prototype")

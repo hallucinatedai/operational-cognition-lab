@@ -25,6 +25,7 @@ console = Console()
 # Data generation
 # ---------------------------------------------------------------------------
 
+
 def generate_synthetic_workflows(
     n_samples: int = 500,
     seed: int = 42,
@@ -122,19 +123,12 @@ def detect_patterns(
     df["anomaly_score"] = distances
     df["is_anomaly"] = anomalies
 
-    cluster_summary = (
-        df.groupby("cluster")[FEATURE_COLUMNS]
-        .agg(["mean", "std", "count"])
-    )
+    cluster_summary = df.groupby("cluster")[FEATURE_COLUMNS].agg(["mean", "std", "count"])
 
     trend = None
     if "timestamp" in df.columns:
         df["period"] = pd.to_datetime(df["timestamp"]).dt.to_period("W")
-        trend = (
-            df.groupby(["period", "cluster"])
-            .size()
-            .unstack(fill_value=0)
-        )
+        trend = df.groupby(["period", "cluster"]).size().unstack(fill_value=0)
 
     return PatternDetectionResult(
         data=df,
@@ -150,6 +144,7 @@ def detect_patterns(
 # ---------------------------------------------------------------------------
 # Reporting
 # ---------------------------------------------------------------------------
+
 
 def print_report(result: PatternDetectionResult) -> None:
     """Pretty-print the detection results."""
@@ -211,6 +206,7 @@ def print_report(result: PatternDetectionResult) -> None:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Workflow pattern detection experiment")
